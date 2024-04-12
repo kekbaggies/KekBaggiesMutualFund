@@ -133,6 +133,10 @@ contract KekBaggiesMutualFund is Ownable {
     }
 
     function getSharePrice() public view returns (uint256) {
+        uint256 sharesOutstanding = getSharesOutstanding();
+        if (sharesOutstanding == 0) {
+            return 0;
+        }
         return getNetAssetValue() / getSharesOutstanding();
     }
 
@@ -333,11 +337,15 @@ contract KekBaggiesMutualFund is Ownable {
     //
     // Emits a {Withdraw} event on success.
     function withdraw(uint256 shares, address to) public {
+        uint256 sharesOutstanding = getSharesOutstanding();
+        require(
+            sharesOutstanding > 0,
+            "No shares outstanding."
+        );
         require(shares > 0, "You must sell at least one share.");
         uint256 shareBalance = getShareBalance(msg.sender);
         require(shareBalance >= shares, "Sell amount is greater than current share balance.");
         uint256 shareValue = shares * getSharePrice();
-        uint256 sharesOutstanding = getSharesOutstanding();
 
         // Sell shareholder's share of assets
         IUniswapV2Router02 router = IUniswapV2Router02(uniswapV2Router02Address);
