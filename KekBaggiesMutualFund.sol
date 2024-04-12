@@ -33,6 +33,7 @@ contract KekBaggiesShareToken is ERC20, Ownable {
 
 contract KekBaggiesMutualFund is Ownable {
     using SafeERC20 for ERC20;
+    using SafeERC20 for IERC20;
 
     event Allocation(address indexed tokenAddress, uint256 newAllocation);
     event Deposit(address indexed depositor, uint256 shares, uint256 shareValue);
@@ -41,9 +42,17 @@ contract KekBaggiesMutualFund is Ownable {
     uint8 private constant BASIS_POINTS = 4;
 
     // Pool reserve token (i.e. $KEKBGS for the Kek Baggies Memecoin Investment Pool)
+    // This is the base currency used by the fund. It is the currency through which users
+    // conduct deposits and withdrawals, and the unit in which the fund's assets are valued.
     ERC20 private immutable reserveToken;
+
     // Pool share token
-    // (The share token is deployed by the pool contract itself in the constructor)
+    // The pool share token is used to determine shareholder equity in the mutual fund.
+    // These share tokens function exactly like shares in a traditional open-ended mutual fund.
+    // The share token is deployed by the pool contract itself in the constructor.
+    // Share tokens can be bought/sold directly from/to the fund contract.
+    // Share token price = (NetAssetValue / SharesOutstanding)
+    // The contract mints share tokens on share purchase and burns share tokens on share sale.
     KekBaggiesShareToken private immutable shareToken;
 
     // Flag for temporarily halting deposits for everyone except the contract owner
@@ -184,8 +193,8 @@ contract KekBaggiesMutualFund is Ownable {
         require(depositFeeBalance > 0, "Current fee balance is 0.");
         require(amount <= depositFeeBalance, "Requested withdrawal amount exceeds fee balance.");
 
-        reserveToken.safeTransfer(to, amount);
         depositFeeBalance -= amount;
+        reserveToken.safeTransfer(to, amount);
     }
 
     // Return a tuple of arrays for current asset information:
