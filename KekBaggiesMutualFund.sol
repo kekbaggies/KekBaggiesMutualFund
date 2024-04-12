@@ -50,6 +50,11 @@ contract KekBaggiesMutualFund is Ownable {
     // Withdrawals will still be enabled for all existing shareholders
     bool private depositsEnabled;
 
+    // Minimum amount of reserve tokens that can be deposited into the fund
+    // This is necessary because if too few tokens are deposited, we may
+    // not be able to allocate them appropriately across the fund's portfolio allocation.
+    uint256 private minimumDeposit;
+
     uint256 private depositFee;
     uint256 depositFeeBalance;
     uint256 private immutable creationDepositFee; // fee cannot be set higher than the value it was set to on contract creation
@@ -77,6 +82,7 @@ contract KekBaggiesMutualFund is Ownable {
         address _uniswapV2Router02Address,
         uint256 _deadlineOffset,
         bool _depositsEnabled,
+        uint256 _minimumDeposit,
         uint256 _slippageTolerance,
         uint256 _depositFee
     )
@@ -91,6 +97,7 @@ contract KekBaggiesMutualFund is Ownable {
         uniswapV2Router02Address = _uniswapV2Router02Address;
         deadlineOffset = _deadlineOffset;
         depositsEnabled = _depositsEnabled;
+        minimumDeposit = _minimumDeposit;
         slippageTolerance = _slippageTolerance;
         depositFee = _depositFee;
         creationDepositFee = _depositFee;
@@ -130,6 +137,14 @@ contract KekBaggiesMutualFund is Ownable {
 
     function setDepositsEnabled(bool _depositsEnabled) public onlyOwner {
         depositsEnabled = _depositsEnabled;
+    }
+
+    function getMinimumDeposit() public view returns (uint256) {
+        return minimumDeposit;
+    }
+
+    function setMinimumDeposit(uint256 _minimumDeposit) public onlyOwner {
+        minimumDeposit = _minimumDeposit;
     }
 
     function getDeadlineOffset() public view returns (uint256) {
@@ -233,6 +248,11 @@ contract KekBaggiesMutualFund is Ownable {
         require(
             depositsEnabled || msg.sender == this.owner(),
             "Deposits are temporarily disabled."
+        );
+
+        require(
+            amount >= minimumDeposit,
+            "Deposit amount is less than the minimum deposit."
         );
 
         require(
