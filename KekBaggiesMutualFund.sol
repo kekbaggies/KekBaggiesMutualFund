@@ -11,11 +11,12 @@ import "https://github.com/Uniswap/v2-periphery/blob/master/contracts/interfaces
 contract KekBaggiesShareToken is ERC20, Ownable {
     constructor(
         string memory _shareTokenName,
-        string memory _shareTokenSymbol,
-        address _mutualFundAddress
+        string memory _shareTokenSymbol
     )
         ERC20(_shareTokenName, _shareTokenSymbol)
-        Ownable(_mutualFundAddress)
+        // Owned by the mutual fund contract that deploys
+        // the share token contract
+        Ownable(msg.sender)
     { }
 
     function decimals() override public pure returns (uint8) {
@@ -101,8 +102,7 @@ contract KekBaggiesMutualFund is Ownable {
         reserveToken = ERC20(_reserveTokenAddress);
         shareToken = new KekBaggiesShareToken(
             _shareTokenName,
-            _shareTokenSymbol,
-            address(this)
+            _shareTokenSymbol
         );
 
         uniswapV2Router02Address = _uniswapV2Router02Address;
