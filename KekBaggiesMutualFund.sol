@@ -395,8 +395,6 @@ contract KekBaggiesMutualFund is Ownable {
             uint256 reserveTokenAmount = absDelta * getNetAssetValue() / 10**BASIS_POINTS;
             uint256 reserveTokenBalance = getReserveTokenBalance();
             if (reserveTokenAmount > reserveTokenBalance) {
-                // This shouldn't happen because the total allocation cannot be
-                // greater than 100%,  but add this check just in case of rounding errors etc.
                 reserveTokenAmount = reserveTokenBalance;
             }
             if (reserveTokenAmount > 0) {
