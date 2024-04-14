@@ -28,6 +28,8 @@ If you have any questions or concerns, please join us on [Telegram](https://t.me
 If you are not interested in reading about all of the details of the internal workings of the fund, this section provides
 a quick guide on how to use the web interface to buy and sell shares.
 
+![Main fund web interface](images/fund-main.png)
+
 1. Install the MetaMask browser extension and use it to create a new web3 wallet.
 2. Buy some ETH on the Base chain, or bridge ETH from another chain to Base.
 3. Use your Base ETH to buy our reserve token [$KEKBGS on Uniswap](https://app.uniswap.org/swap?outputCurrency=0xe7A704EAA3232756C8504FCF01Dcb535dc2df2A2&chain=base).
