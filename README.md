@@ -39,6 +39,8 @@ a quick guide on how to use the web interface to buy and sell shares.
 ### Buying Shares
 Now that you have $KEKBGS on Base, you can buy shares in the Kek Baggies Memecoin Mutual Fund.
 
+![Fund deposit modal](images/fund-deposit-modal.png)
+
 1. In the `Manage Account` section of the web interface, click the `Buy Shares` button.
 2. In the modal that appears, you can view your current share balance as well as the amount of $KEKBGS available for buying shares in your wallet.
 3. Enter a deposit amount of $KEKBGS in the input field. We will subtract the deposit fee and then divide the
