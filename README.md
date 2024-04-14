@@ -30,7 +30,7 @@ a quick guide on how to use the web interface to buy and sell shares.
 
 1. Install the MetaMask browser extension and use it to create a new web3 wallet.
 2. Buy some ETH on the Base chain, or bridge ETH from another chain to Base.
-3. Use your Base ETH to buy our reserve token $KEKBGS on Uniswap.
+3. Use your Base ETH to buy our reserve token [$KEKBGS on Uniswap](https://app.uniswap.org/swap?outputCurrency=0xe7A704EAA3232756C8504FCF01Dcb535dc2df2A2&chain=base).
 4. **(Optional)** Add our reserve token $KEKBGS to your MetaMask wallet by importing the contract address `0xe7A704EAA3232756C8504FCF01Dcb535dc2df2A2`.
 5. Visit https://kekbaggi.es/fund/ to access the fund's web interface.
 
