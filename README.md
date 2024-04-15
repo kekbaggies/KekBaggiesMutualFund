@@ -165,7 +165,7 @@ The owner of the contract is able to set a minimum deposit amount of KEKBGS by c
 the swaps will fail on Uniswap if the user deposits too few KEKBGS to be allocated appropriately to all of the portfolio assets, but the depositor will still have to pay
 gas fees for the failed transaction.
 
-The minimum deposit amount is adjustable at any time and can be set to 0 to disable the minimum deposit functionality.
+The minimum deposit amount is adjustable at any time and can be set to 0 to disable the minimum deposit functionality. It is currently set to 100,000,000 KEKBGS on the live fund contract.
 
 ### Disabling Deposits
 Deposits are able to be disabled by the owner of the contract by calling `setDepositsEnabled(false)`. In this case, no new shares will be able to be purchased from the fund. Investors
