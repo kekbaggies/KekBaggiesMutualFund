@@ -7,7 +7,8 @@ The fund provides to investors a convenient way to invest in memecoins without h
 The mutual fund is deployed entirely on-chain, enabling us to operate with much greater transparency and decentralization than investors would be
 able to experience with a traditional mutual fund.
 
-This README is intended to serve as a complete documentation of the mutual fund contract and the web interface for interacting with it.
+This README is intended to serve as a complete documentation of the mutual fund contract and the web interface for interacting with it. This is
+a living document which will be updated for completeness and clarification as necessary.
 
 If you have any questions or concerns, please join us on [Telegram](https://t.me/KekBaggiesToken).
 
@@ -19,7 +20,9 @@ If you have any questions or concerns, please join us on [Telegram](https://t.me
     * [Contract](#contract)
     * [Portfolio Management](#portfolio-management)
     * [Shares](#shares)
+    * [Minimum Deposit](#minimum-deposit)
     * [Fees](#fees)
+    * [Slippage](#slippage)
 * [Reserve Token](#reserve-token)
 * [Contract Addresses](#contract-addresses)
 * [Disclaimer](#disclaimer)
@@ -95,6 +98,25 @@ See the [Shares](#shares) subsection for more information.
 ### Portfolio Management
 
 ### Shares
+Users are able to buy shares from and sell shares to the mutual fund contract at the current share price. The share price is calculated as `NetAssetValue / SharesOutstanding` where `NetAssetValue`
+is the total value of the fund's assets in KEKBGS minus the current deposit fee balance. `SharesOutstanding` is the total count of shares that are currently held by investors.
+
+Shares in the fund are issued as standard ERC20 tokens. When a user buys shares, the fund contract mints to their wallet a quantity of share tokens equal to the number of shares they bought.
+When a user sells shares back to the fund, the fund contract burns from their wallet a quantity of share tokens equal to the number of shares they sold. Since any purchase/sale of shares
+causes `NetAssetValue` and `SharesOutstanding` to increase by equivalent values (in terms of KEKBGS), purchases/sales of shares do not directly affect the current share price. In practice,
+the share price may be slightly affected due to slippage in the purchase/sale of assets when shares are bought/sold, but this price impact will not be significant.
+
+The share token contract is deployed and owned by the mutual fund contract. Devs have no direct control over how share tokens are minted/burned; all of this behavior is specified in
+the mutual fund contract code.
+
+Issuing mutual fund shares as ERC20 tokens enables these share tokens to be freely transferred and exchanged between accounts. The share tokens could even be listed on decentralized exchanges.
+The mutual fund contract is not concerned with the original purchaser of share tokens; any bearer of the fund's share tokens is able to sell them back to the fund at the current share price. This offers
+much greater flexibility than a traditional mutual fund where investors typically do not have direct custody over their shares in the fund.
+
+There is no limit to the number of shares that users can buy/sell from/to the mutual fund contract. Users are able to transact shares with the fund contract at the current share
+price at any time. This share structure is similar to that of a traditional open-ended mutual fund.
+
+### Minimum Deposit
 
 ### Fees
 The fund contract charges a 100 basis point deposit fee in $KEKBGS before shares are purchased. This fee is able to be lowered in the future,
@@ -102,6 +124,8 @@ but can never be set higher than the 100 basis points it was set to when the con
 
 Revenue from the contract's deposit fees will primarily be used to grow the Kek Baggies project by covering expenses,
 paying for marketing services, etc.
+
+### Slippage
 
 ## Reserve Token
 
