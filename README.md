@@ -21,6 +21,7 @@ If you have any questions or concerns, please join us on [Telegram](https://t.me
     * [Portfolio Management](#portfolio-management)
     * [Shares](#shares)
     * [Minimum Deposit](#minimum-deposit)
+    * [Disabling Deposits](#disabling-deposits)
     * [Fees](#fees)
     * [Slippage](#slippage)
 * [Reserve Token](#reserve-token)
@@ -94,11 +95,42 @@ Investors can use our reserve token $KEKBGS to purchase shares directly from the
 See the [Shares](#shares) subsection for more information.
 
 ### Contract
+The source code of the mutual fund contract is available in this repository and is verified on [BaseScan]().
+
+The contract is responsible for maintaining custody over user deposits, as well as the buying/selling of portfolio assets with funds deposited by users. The contract has full
+custody over these assets and manages them as specified in the contract code. Devs are not able to sell or transfer portfolio assets out of the fund. Investors are always
+entitled to receive the full value (less slippage) of their asset entitlement by selling their shares back to the fund at the current share price.
+
+When a user deposits KEKBGS into the fund by calling `deposit(uint256 amount)`, the fund contract transfers `amount` KEKBGS from the user's wallet to the fund's contract address.
+The contract then calculates the total number of purchased shares by dividing the deposited amount of KEKBGS by the current share price. The contract only sells whole shares,
+so we only transfer the total value of the whole number of shares purchased minus their "change".
+The contract then uses deposited KEKBGS to purchase portfolio assets. Finally, the fund contract mints to the user's wallet the previously-calculated quantity of share tokens.
+
+When a user sells shares back to the fund by calling `withdraw(uint256 shares, address to)`, the fund sells portions of the fund's portfolio assets for KEKBGS and transfers
+the proceeds to the address specified by `to`. The calling account must have at least the number of share tokens specified by the `shares` argument. For each token in the
+fund's portfolio, the sale quantity is calculated by `shares * token.balanceOf(address(this)) / sharesOutstanding` where `address(this)` is the address of the mutual fund
+contract. We then transfer the user's reserve token entitlement to the address specified by `to` by calculating `shares * getReserveTokenBalance() / sharesOutstanding`.
+Finally, the contract burns from the user's wallet the number of shares they sold back to the fund.
+
+These buying/selling operations should typically be performed in the web UI as documented above. Only advanced users should interact with the smart contract functions directly.
+Please contact us on Telegram if you need help with this.
+
+For this first version of the mutual fund contract, the fund is only able to buy and sell assets that are exchanged on Uniswap V2. Future versions of this mutual fund
+may have support for more exchange protocols, but we decided to keep the initial version simple by only supporting one exchange protocol.
+
+There are a few additional read-only contract functions that would be useful to document here:
+* `getNetAssetValue()` returns the total value of all assets held by the fund contract in KEKBGS, minus the current deposit fee balance.
+* `getReserveTokenBalance()` returns the total quantity of reserve tokens currently held by the fund minus the current deposit fee balance.
+* `getPortfolio()` returns information about the fund's asset holdings, including contract addresses, portfolio allocation basis points, token symbols,
+token balances, and token balance value in KEKBGS for each asset in the fund's portfolio.
+
+There are also a number of additional self-explanatory getters and setters that can be inspected by reading the contract source code. Please contact us on Telegram
+if you need help understanding any part of the source code.
 
 ### Portfolio Management
 
 ### Shares
-Users are able to buy shares from and sell shares to the mutual fund contract at the current share price. The share price is calculated as `NetAssetValue / SharesOutstanding` where `NetAssetValue`
+Users are able to buy shares from and sell shares to the mutual fund contract at the current share price. The share price is calculated as `getNetAssetValue() / getSharesOutstanding()` where `NetAssetValue`
 is the total value of the fund's assets in KEKBGS minus the current deposit fee balance. `SharesOutstanding` is the total count of shares that are currently held by investors.
 
 Shares in the fund are issued as standard ERC20 tokens. When a user buys shares, the fund contract mints to their wallet a quantity of share tokens equal to the number of shares they bought.
@@ -118,9 +150,15 @@ price at any time. This share structure is similar to that of a traditional open
 
 ### Minimum Deposit
 
+### Disabling Deposits
+Deposits are able to be disabled by the owner of the contract by calling `setDepositsEnabled(false)`. In this case, no new shares will be able to be purchased from the fund. Investors
+will still be able to sell their current shares back to the fund at the current share price.
+
+The contract owner can re-enable deposits by calling `setDepositsEnabled(true)`. The will enable users to buy shares from the fund again.
+
 ### Fees
-The fund contract charges a 100 basis point deposit fee in $KEKBGS before shares are purchased. This fee is able to be lowered in the future,
-but can never be set higher than the 100 basis points it was set to when the contract was deployed.
+The fund contract charges a 100 basis point deposit fee in $KEKBGS before shares are purchased. The contract owner is able to lower this fee in the future,
+but the fee can never be set higher than the 100 basis points it was set to when the contract was deployed.
 
 Revenue from the contract's deposit fees will primarily be used to grow the Kek Baggies project by covering expenses,
 paying for marketing services, etc.
