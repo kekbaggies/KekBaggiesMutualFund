@@ -129,6 +129,17 @@ There are also a number of additional self-explanatory getters and setters that 
 if you need help understanding any part of the source code.
 
 ### Portfolio Management
+The owner of the contract is able to set the portfolio allocation by calling `setAllocation(address tokenAddress, uint256 _allocation)` on the contract. `tokenAddress` is the
+address of the token to be added/updated in the portfolio, and `_allocation` is the portfolio allocation to set for the token in basis points. The maximum total allocation
+of all assets in the fund is 10,000 basis points (100%).
+
+`_allocation` cannot be the same as the asset's current allocation. If `_allocation` is greater than the current allocation, then an amount of reserve tokens proportional
+to the change in allocation will be used to purchase the asset on Uniswap. If `_allocation` is less than the current allocation, then an amount of the asset proportional to the
+change in the allocation will be sold on Uniswap for reserve tokens.
+
+In addition to buying/selling assets upon setting the allocation, the allocation percentage also determines how user deposits are allocated when the user buys shares.
+The unallocated percentage will remain held in the fund's reserve token. So if the total asset allocation is 6,000 basis points (60%), 40% of deposits will be held
+in the reserve token.
 
 ### Shares
 Users are able to buy shares from and sell shares to the mutual fund contract at the current share price. The share price is calculated as `getNetAssetValue() / getSharesOutstanding()` where `NetAssetValue`
