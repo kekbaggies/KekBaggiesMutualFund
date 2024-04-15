@@ -95,7 +95,7 @@ Investors can use our reserve token $KEKBGS to purchase shares directly from the
 See the [Shares](#shares) subsection for more information.
 
 ### Contract
-The source code of the mutual fund contract is available in this repository and is verified on [BaseScan]().
+The source code of the mutual fund contract is available in this repository and is verified on [BaseScan](https://basescan.org/address/0x91183c921f3e56e3e793dd8a5a3ee8250c3cc9d7#code).
 
 The contract is responsible for maintaining custody over user deposits, as well as the buying/selling of portfolio assets with funds deposited by users. The contract has full
 custody over these assets and manages them as specified in the contract code. Devs are not able to sell or transfer portfolio assets out of the fund. Investors are always
