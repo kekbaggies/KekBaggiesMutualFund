@@ -100,8 +100,8 @@ See the [Shares](#shares) subsection for more information.
 The source code of the mutual fund contract is available in this repository and is verified on [BaseScan](https://basescan.org/address/0x91183c921f3e56e3e793dd8a5a3ee8250c3cc9d7#code).
 
 The contract is responsible for maintaining custody over user deposits, as well as the buying/selling of portfolio assets with funds deposited by users. The contract has full
-custody over these assets and manages them as specified in the contract code. Devs are not able to sell or transfer portfolio assets out of the fund. Investors are always
-entitled to receive the full value (less slippage) of their asset entitlement by selling their shares back to the fund at the current share price.
+custody over these assets and manages them as specified in the contract code. Devs are not able to transfer portfolio assets out of the fund. Investors are always
+entitled to receive the full value (less slippage) of their asset and reserve token entitlement by selling their shares back to the fund at the current share price.
 
 When a user deposits KEKBGS into the fund by calling `deposit(uint256 amount)`, the fund contract transfers `amount` KEKBGS from the user's wallet to the fund's contract address.
 The contract then calculates the total number of purchased shares by dividing the deposited amount of KEKBGS by the current share price. The contract only sells whole shares,
