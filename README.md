@@ -50,16 +50,17 @@ Now that you have $KEKBGS on Base and have connected your wallet to the fund's w
 1. In the `Manage Account` section of the web interface, click the `Buy Shares` button.
 2. In the modal that appears, you can view your current share balance as well as the amount of $KEKBGS available for buying shares in your wallet.
 3. Enter a deposit amount of $KEKBGS in the input field. We will subtract the deposit fee and then divide the
-remainder by the current share price to determine how many shares to buy. The final purchase quantity is displayed in the modal.
-4. Click `Approve Tokens` and then confirm the transaction in your wallet. Approving the tokens will allow the fund contract to spend your tokens on portfolio assets on your behalf.
-5. Wait a few moments for the approval transaction to be confirmed.
-6. Once your token allowace is updated, the `Approve Tokens` button will change to say `Buy Shares`.
-7. Click `Buy Shares` and then confirm the transaction in your wallet.
-8. Wait a few moments for the share purchase transaction to be confirmed.
-9. Once the purchase transaction is confirmed, the page will refresh. Don't panic if the page doesn't update to show your new share balance right away.
+remainder by the current share price to determine how many shares to buy. The final purchase quantity is displayed in the modal. You must deposit at least the amount of KEKBGS shown in
+the `Minimum Deposit Amount` field.
+5. Click `Approve Tokens` and then confirm the transaction in your wallet. Approving the tokens will allow the fund contract to spend your tokens on portfolio assets on your behalf.
+6. Wait a few moments for the approval transaction to be confirmed.
+7. Once your token allowace is updated, the `Approve Tokens` button will change to say `Buy Shares`.
+8. Click `Buy Shares` and then confirm the transaction in your wallet.
+9. Wait a few moments for the share purchase transaction to be confirmed.
+10. Once the purchase transaction is confirmed, the page will refresh. Don't panic if the page doesn't update to show your new share balance right away.
 Due to latency in the Base RPC provider, you may need to refresh the page a few times before your new share balance and equity are shown correctly.
-10. You are now a shareholder in the Kek Baggies Memecoin Mutual Fund!
-11. **(Optional)** Add the share token $KBMFST to your MetaMask wallet by importing the contract address `0xa34A1adDE2dDDfB1FB54024285daB566E755e188`.
+11. You are now a shareholder in the Kek Baggies Memecoin Mutual Fund!
+12. **(Optional)** Add the share token $KBMFST to your MetaMask wallet by importing the contract address `0xa34A1adDE2dDDfB1FB54024285daB566E755e188`.
 This will enable you to view your share balance directly in your wallet or transfer the share tokens to another account.
 
 **SHARES CAN ONLY BE BOUGHT FROM THE FUND BY USING THE WEB INTERFACE.**
