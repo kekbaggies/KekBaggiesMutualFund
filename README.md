@@ -55,7 +55,7 @@ remainder by the current share price to determine how many shares to buy. The fi
 the `Minimum Deposit Amount` field.
 5. Click `Approve Tokens` and then confirm the transaction in your wallet. Approving the tokens will allow the fund contract to spend your tokens on portfolio assets on your behalf.
 6. Wait a few moments for the approval transaction to be confirmed.
-7. Once your token allowace is updated, the `Approve Tokens` button will change to say `Buy Shares`.
+7. Once your token allowance is updated, the `Approve Tokens` button will change to say `Buy Shares`.
 8. Click `Buy Shares` and then confirm the transaction in your wallet.
 9. Wait a few moments for the share purchase transaction to be confirmed.
 10. Once the purchase transaction is confirmed, the page will refresh. Don't panic if the page doesn't update to show your new share balance right away.
