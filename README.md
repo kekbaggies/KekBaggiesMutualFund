@@ -18,6 +18,7 @@ If you have any questions or concerns, please join us on [Telegram](https://t.me
     * [Selling Shares](#selling-shares)
 * [Mutual Fund Structure](#mutual-fund-structure)
     * [Contract](#contract)
+    * [Contract Constructor Arguments](#contract-constructor-arguments)
     * [Portfolio Management](#portfolio-management)
     * [Shares](#shares)
     * [Minimum Deposit](#minimum-deposit)
@@ -128,6 +129,25 @@ token balances, and token balance value in KEKBGS for each asset in the fund's p
 
 There are also a number of additional self-explanatory getters and setters that can be inspected by reading the contract source code. Please contact us on Telegram
 if you need help understanding any part of the source code.
+
+### Contract Constructor Arguments
+If you wish to deploy your own instance of the fund contract using the provided source code, the following constructor arguments must be supplied:
+
+* `address _reserveTokenAddress` - The contract address of the reserve token for the fund. See the [Reserve Token](#reserve-token) section.
+* `string memory _shareTokenName` - The verbose name to assign to the share token contract that will be deployed by the fund contract
+* `string memory _shareTokenSymbol` - The symbol to assign to the share token contract that will be deployed by the fund contract
+* `address _uniswapV2Router02Address` - The address of the UniswapV2Router02 contract deployment on the chain you're deploying on. For Base, this is `0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24`.
+* `uint256 _deadlineOffset` - The Unix time offset from the current block's timestamp after which Uniswap buy/sell transactions will revert. A reasonable value for this is `300` for a five-minute offset.
+The contract owner can update this value after deployment by calling `setDeadlineOffset(uint256 _deadlineOffset)`.
+* `bool _depositsEnabled` - Whether deposits should be initially enabled. The contract owner can update this value after deployment by calling `setDepositsEnabled(bool _depositsEnabled)`.
+* `uint256 _minimumDeposit` - The minimum deposit amount of reserve tokens. Set this to `0` to disable the minimum deposit requirement. **NOTE**: this value should be specified in
+absolute units of the reserve token. For example, if your reserve token has 18 decimals and you want the minimum deposit to be 1000 tokens, you should set this value to
+`1000 * 10**18` -> `1000000000000000000000`. The contract owner can update this value after deployment by calling `setMinimumDeposit(uint256 _minimumDeposit)`. See the [Minimum Deposit](#minimum-deposit) section.
+* `uint256 _slippageTolerance` - The slippage tolerance for Uniswap transactions in basis points. For example, to set a slippage tolerance of 1%, set this field to `100`.
+The contract owner can update this value after deployment by calling `setSlippageTolerance(uint256 _slippageTolerance)`. See the [Slippage](#slippage) section.
+* `uint256 _depositFee` - The fee to charge for each reserve token deposit in basis points. For example, to set a 1% deposit fee, set this field to `100`. The contract owner
+can update this value after deployment by calling `setDepositFee(uint256 _depositFee)`, but the deposit fee cannot be set higher than it was set to on contract creation.
+See the [Fees](#fees) section.
 
 ### Portfolio Management
 The owner of the contract is able to set the portfolio allocation by calling `setAllocation(address tokenAddress, uint256 _allocation)` on the contract. `tokenAddress` is the
