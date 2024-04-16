@@ -105,7 +105,7 @@ entitled to receive the full value (less slippage) of their asset and reserve to
 
 When a user deposits KEKBGS into the fund by calling `deposit(uint256 amount)`, the fund contract transfers `amount` KEKBGS from the user's wallet to the fund's contract address.
 The contract then calculates the total number of purchased shares by dividing the deposited amount of KEKBGS by the current share price. The contract only sells whole shares,
-so we only transfer the total value of the whole number of shares purchased minus their "change".
+so we only transfer into the fund the total value of the whole number of shares purchased minus the user's "change".
 The contract then uses the deposited KEKBGS to purchase portfolio assets according to the specified asset allocation.
 Finally, the fund contract mints to the user's wallet the previously-calculated quantity of share tokens.
 
