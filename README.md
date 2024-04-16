@@ -195,11 +195,17 @@ will still be able to sell their current shares back to the fund at the current 
 The contract owner can re-enable deposits by calling `setDepositsEnabled(true)`. The will enable users to buy shares from the fund again.
 
 ### Fees
-The fund contract charges a 100 basis point deposit fee in $KEKBGS before shares are purchased. The contract owner is able to lower this fee in the future,
-but the fee can never be set higher than the 100 basis points it was set to when the contract was deployed.
+The fund contract charges a percentage deposit fee in $KEKBGS before shares are purchased. The contract owner is able to lower this fee in the future,
+but the fee can never be set higher than the value it was set to when the contract was deployed. This restriction grants users the guarantee that
+the contract owner will never be able to set the deposit fee to something egregious (like 100%, for example).
 
-Revenue from the contract's deposit fees will primarily be used to grow the Kek Baggies project by covering expenses,
+The Kek Baggies Memecoin Mutual Fund contract was deployed with a deposit fee of 100 basis points (1%). This means that the highest deposit fee that
+the fund contract will ever be able to charge is 1%.
+
+Revenue from the Kek Baggies Memecoin Mutual Fund's deposit fees will primarily be used to grow the Kek Baggies project by covering expenses,
 paying for marketing services, etc.
+
+No fee is charged when selling shares back to the fund.
 
 ### Slippage
 Decentralized exchanges are adversarial in nature. It is important to set a slippage tolerance when trading on exchanges like Uniswap to avoid being targeted by MEV bots and "sandwich attacks".
