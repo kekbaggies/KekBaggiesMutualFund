@@ -181,6 +181,10 @@ Revenue from the contract's deposit fees will primarily be used to grow the Kek 
 paying for marketing services, etc.
 
 ### Slippage
+Decentralized exchanges are adversarial in nature. It is important to set a slippage tolerance when trading on exchanges like Uniswap to avoid being targeted by MEV bots and "sandwich attacks".
+
+The owner of the mutual fund contract can set a slippage tolerance in basis points by calling `setSlippageTolerance(uint256 _slippageTolerance)`. 100 basis points (1%) is a good tolerance to start
+with. If the slippage tolerance is set too low, transactions will fail due to slippage. If the slippage is set too high, transactions will be more susceptible to frontrunning.
 
 ## Reserve Token
 
