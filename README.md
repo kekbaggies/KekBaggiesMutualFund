@@ -188,6 +188,19 @@ The owner of the mutual fund contract can set a slippage tolerance in basis poin
 with. If the slippage tolerance is set too low, transactions will fail due to slippage. If the slippage is set too high, transactions will be more susceptible to frontrunning.
 
 ## Reserve Token
+The reserve token for the Kek Baggies Memecoin Mutual Fund on Base is $KEKBGS (CA `0xe7A704EAA3232756C8504FCF01Dcb535dc2df2A2`).
+
+When the mutual fund contract is deployed, a reserve token contract address must be specified. This is the token which will be used to purchase shares, and the token in terms of which the fund's
+net asset value will be quoted. This token is used to purchase assets according to the fund's portfolio allocation. The unallocated percentage remains held in the fund's reserve token.
+
+Shares of the fund will have a somewhat inverse correlation with the price of the reserve token. The strength of this inverse correlation depends on the fund's reserve ratio. If most of the fund's
+portfolio is unallocated, then price swings in the reserve token will have a smaller effect on the fund's share price. If most of the fund's portfolio is allocated to other tokens, then price
+swings in the reserve token will have a greater effect on the fund's share price. This is because an increase in the reserve token price makes it more expensive to buy back reserve tokens
+when the fund's assets are sold, so the share price decreases in this case. Conversely, a decrease in the reserve token price will make it cheaper to buy back reserve tokens when selling the fund's assets,
+so the share price will increase.
+
+This inverse correlation between the reserve token price and the fund's share price could create the opportunity for a number of investment strategies. For example, holding the fund's shares could
+serve as a hedge against decreases in the price of the reserve token.
 
 ## Contract Addresses
 * $KEKBGS - `0xe7A704EAA3232756C8504FCF01Dcb535dc2df2A2`
