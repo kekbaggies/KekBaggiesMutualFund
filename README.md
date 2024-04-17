@@ -61,7 +61,7 @@ the `Minimum Deposit Amount` field.
 10. Once the purchase transaction is confirmed, the page will refresh. Don't panic if the page doesn't update to show your new share balance right away.
 Due to latency in the Base RPC provider, you may need to refresh the page a few times before your new share balance and equity are shown correctly.
 11. You are now a shareholder in the Kek Baggies Memecoin Mutual Fund!
-12. **(Optional)** Add the share token $KBMFST to your MetaMask wallet by importing the contract address `0xa34A1adDE2dDDfB1FB54024285daB566E755e188`.
+12. **(Optional)** Add the share token $KBMFST to your MetaMask wallet by importing the contract address `0x714d6e3c824F54aE3625582b7C267dB7b191378E`.
 This will enable you to view your share balance directly in your wallet or transfer the share tokens to another account.
 
 **SHARES CAN ONLY BE BOUGHT FROM THE FUND BY USING THE WEB INTERFACE.**
@@ -97,7 +97,7 @@ Investors can use our reserve token $KEKBGS to purchase shares directly from the
 See the [Shares](#shares) subsection for more information.
 
 ### Contract
-The source code of the mutual fund contract is available in this repository and is verified on [BaseScan](https://basescan.org/address/0x91183c921f3e56e3e793dd8a5a3ee8250c3cc9d7#code).
+The source code of the mutual fund contract is available in this repository and is verified on [BaseScan](https://basescan.org/address/0x6b47AF02569Ee852F1d3825179F9a11937A4c0C6#code).
 
 The contract is responsible for maintaining custody over user deposits, as well as the buying/selling of portfolio assets with funds deposited by users. The contract has full
 custody over these assets and manages them as specified in the contract code. Devs are not able to transfer portfolio assets out of the fund. Investors are always
@@ -232,8 +232,8 @@ token KEKBGS is now twice as valuable.
 
 ## Contract Addresses
 * $KEKBGS - `0xe7A704EAA3232756C8504FCF01Dcb535dc2df2A2`
-* Kek Baggies Mutual Fund - `0x91183C921f3E56E3e793Dd8A5A3ee8250c3CC9D7`
-* Kek Baggies Mutual Fund Share Token - `0xa34A1adDE2dDDfB1FB54024285daB566E755e188`
+* Kek Baggies Mutual Fund - `0x6b47AF02569Ee852F1d3825179F9a11937A4c0C6`
+* Kek Baggies Mutual Fund Share Token - `0x714d6e3c824F54aE3625582b7C267dB7b191378E`
 
 ## Disclaimer
 Crypto assets are inherently risky and volatile. While we are attempting to mitigate overall risk by maintaining a diversified portfolio, we offer no promise nor guarantee that investments in the Kek Baggies Memecoin Mutual Fund will return a profit. Do not invest more than you are willing to lose.

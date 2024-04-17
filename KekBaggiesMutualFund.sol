@@ -498,12 +498,12 @@ contract KekBaggiesMutualFund is Ownable {
     // factoring in slippage tolerance.
     // There must be a path from reserveToken -> WETH -> token on uniswap, otherwise
     // this operation will fail.
-    function _buy(IUniswapV2Router02 router, address tokenAddress, uint256 amount) internal returns (uint256[] memory amounts) {
+    function _buy(IUniswapV2Router02 router, address tokenAddress, uint256 amount) internal {
         require(amount <= getReserveTokenBalance(), "Insufficient reserve token balance.");
         uint256 minimumOut = _calculateSlippage(_buyAmount(router, tokenAddress, amount));
         address[] memory path = _buyPath(router, tokenAddress);
         reserveToken.approve(uniswapV2Router02Address, amount);
-        return router.swapExactTokensForTokens(
+        router.swapExactTokensForTokensSupportingFeeOnTransferTokens(
             amount,
             minimumOut,
             path,
@@ -527,13 +527,13 @@ contract KekBaggiesMutualFund is Ownable {
     // factoring in slippage tolerance.
     // There must be a path from token -> WETH -> reserveToken on uniswap, otherwise
     // this operation will fail.
-    function _sell(IUniswapV2Router02 router, address tokenAddress, uint256 amount, address to) internal returns (uint256[] memory amounts) {
+    function _sell(IUniswapV2Router02 router, address tokenAddress, uint256 amount, address to) internal {
         IERC20 token = IERC20(tokenAddress);
         require(amount <= token.balanceOf(address(this)), "Insufficient token balance.");
         uint256 minimumOut = _calculateSlippage(_sellAmount(router, tokenAddress, amount));
         address[] memory path = _sellPath(router, tokenAddress);
         token.approve(uniswapV2Router02Address, amount);
-        return router.swapExactTokensForTokens(
+        router.swapExactTokensForTokensSupportingFeeOnTransferTokens(
             amount,
             minimumOut,
             path,
