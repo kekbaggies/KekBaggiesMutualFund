@@ -18,6 +18,7 @@ If you have any questions or concerns, please join us on [Telegram](https://t.me
     * [Selling Shares](#selling-shares)
 * [Mutual Fund Structure](#mutual-fund-structure)
     * [Contract](#contract)
+    * [Contract Constructor Arguments](#contract-constructor-arguments)
     * [Portfolio Management](#portfolio-management)
     * [Shares](#shares)
     * [Minimum Deposit](#minimum-deposit)
@@ -50,16 +51,17 @@ Now that you have $KEKBGS on Base and have connected your wallet to the fund's w
 1. In the `Manage Account` section of the web interface, click the `Buy Shares` button.
 2. In the modal that appears, you can view your current share balance as well as the amount of $KEKBGS available for buying shares in your wallet.
 3. Enter a deposit amount of $KEKBGS in the input field. We will subtract the deposit fee and then divide the
-remainder by the current share price to determine how many shares to buy. The final purchase quantity is displayed in the modal.
-4. Click `Approve Tokens` and then confirm the transaction in your wallet. Approving the tokens will allow the fund contract to spend your tokens on portfolio assets on your behalf.
-5. Wait a few moments for the approval transaction to be confirmed.
-6. Once your token allowace is updated, the `Approve Tokens` button will change to say `Buy Shares`.
-7. Click `Buy Shares` and then confirm the transaction in your wallet.
-8. Wait a few moments for the share purchase transaction to be confirmed.
-9. Once the purchase transaction is confirmed, the page will refresh. Don't panic if the page doesn't update to show your new share balance right away.
+remainder by the current share price to determine how many shares to buy. The final purchase quantity is displayed in the modal. You must deposit at least the amount of KEKBGS shown in
+the `Minimum Deposit Amount` field.
+5. Click `Approve Tokens` and then confirm the transaction in your wallet. Approving the tokens will allow the fund contract to spend your tokens on portfolio assets on your behalf.
+6. Wait a few moments for the approval transaction to be confirmed.
+7. Once your token allowance is updated, the `Approve Tokens` button will change to say `Buy Shares`.
+8. Click `Buy Shares` and then confirm the transaction in your wallet.
+9. Wait a few moments for the share purchase transaction to be confirmed.
+10. Once the purchase transaction is confirmed, the page will refresh. Don't panic if the page doesn't update to show your new share balance right away.
 Due to latency in the Base RPC provider, you may need to refresh the page a few times before your new share balance and equity are shown correctly.
-10. You are now a shareholder in the Kek Baggies Memecoin Mutual Fund!
-11. **(Optional)** Add the share token $KBMFST to your MetaMask wallet by importing the contract address `0xa34A1adDE2dDDfB1FB54024285daB566E755e188`.
+11. You are now a shareholder in the Kek Baggies Memecoin Mutual Fund!
+12. **(Optional)** Add the share token $KBMFST to your MetaMask wallet by importing the contract address `0xa34A1adDE2dDDfB1FB54024285daB566E755e188`.
 This will enable you to view your share balance directly in your wallet or transfer the share tokens to another account.
 
 **SHARES CAN ONLY BE BOUGHT FROM THE FUND BY USING THE WEB INTERFACE.**
@@ -98,12 +100,12 @@ See the [Shares](#shares) subsection for more information.
 The source code of the mutual fund contract is available in this repository and is verified on [BaseScan](https://basescan.org/address/0x91183c921f3e56e3e793dd8a5a3ee8250c3cc9d7#code).
 
 The contract is responsible for maintaining custody over user deposits, as well as the buying/selling of portfolio assets with funds deposited by users. The contract has full
-custody over these assets and manages them as specified in the contract code. Devs are not able to sell or transfer portfolio assets out of the fund. Investors are always
-entitled to receive the full value (less slippage) of their asset entitlement by selling their shares back to the fund at the current share price.
+custody over these assets and manages them as specified in the contract code. Devs are not able to transfer portfolio assets out of the fund. Investors are always
+entitled to receive the full value (less slippage) of their asset and reserve token entitlement by selling their shares back to the fund at the current share price.
 
 When a user deposits KEKBGS into the fund by calling `deposit(uint256 amount)`, the fund contract transfers `amount` KEKBGS from the user's wallet to the fund's contract address.
 The contract then calculates the total number of purchased shares by dividing the deposited amount of KEKBGS by the current share price. The contract only sells whole shares,
-so we only transfer the total value of the whole number of shares purchased minus their "change".
+so we only transfer into the fund the total value of the whole number of shares purchased minus the user's "change".
 The contract then uses the deposited KEKBGS to purchase portfolio assets according to the specified asset allocation.
 Finally, the fund contract mints to the user's wallet the previously-calculated quantity of share tokens.
 
@@ -127,6 +129,25 @@ token balances, and token balance value in KEKBGS for each asset in the fund's p
 
 There are also a number of additional self-explanatory getters and setters that can be inspected by reading the contract source code. Please contact us on Telegram
 if you need help understanding any part of the source code.
+
+### Contract Constructor Arguments
+If you wish to deploy your own instance of the fund contract using the provided source code, the following constructor arguments must be supplied:
+
+* `address _reserveTokenAddress` - The contract address of the reserve token for the fund. See the [Reserve Token](#reserve-token) section.
+* `string memory _shareTokenName` - The verbose name to assign to the share token contract that will be deployed by the fund contract
+* `string memory _shareTokenSymbol` - The symbol to assign to the share token contract that will be deployed by the fund contract
+* `address _uniswapV2Router02Address` - The address of the UniswapV2Router02 contract deployment on the chain you're deploying on. For Base, this is `0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24`.
+* `uint256 _deadlineOffset` - The Unix time offset from the current block's timestamp after which Uniswap buy/sell transactions will revert. A reasonable value for this is `300` for a five-minute offset.
+The contract owner can update this value after deployment by calling `setDeadlineOffset(uint256 _deadlineOffset)`.
+* `bool _depositsEnabled` - Whether deposits should be initially enabled. The contract owner can update this value after deployment by calling `setDepositsEnabled(bool _depositsEnabled)`.
+* `uint256 _minimumDeposit` - The minimum deposit amount of reserve tokens. Set this to `0` to disable the minimum deposit requirement. **NOTE**: this value should be specified in
+absolute units of the reserve token. For example, if your reserve token has 18 decimals and you want the minimum deposit to be 1000 tokens, you should set this value to
+`1000 * 10**18` -> `1000000000000000000000`. The contract owner can update this value after deployment by calling `setMinimumDeposit(uint256 _minimumDeposit)`. See the [Minimum Deposit](#minimum-deposit) section.
+* `uint256 _slippageTolerance` - The slippage tolerance for Uniswap transactions in basis points. For example, to set a slippage tolerance of 1%, set this field to `100`.
+The contract owner can update this value after deployment by calling `setSlippageTolerance(uint256 _slippageTolerance)`. See the [Slippage](#slippage) section.
+* `uint256 _depositFee` - The fee to charge for each reserve token deposit in basis points. For example, to set a 1% deposit fee, set this field to `100`. The contract owner
+can update this value after deployment by calling `setDepositFee(uint256 _depositFee)`, but the deposit fee cannot be set higher than it was set to on contract creation.
+See the [Fees](#fees) section.
 
 ### Portfolio Management
 The owner of the contract is able to set the portfolio allocation by calling `setAllocation(address tokenAddress, uint256 _allocation)` on the contract. `tokenAddress` is the
@@ -174,11 +195,17 @@ will still be able to sell their current shares back to the fund at the current 
 The contract owner can re-enable deposits by calling `setDepositsEnabled(true)`. The will enable users to buy shares from the fund again.
 
 ### Fees
-The fund contract charges a 100 basis point deposit fee in $KEKBGS before shares are purchased. The contract owner is able to lower this fee in the future,
-but the fee can never be set higher than the 100 basis points it was set to when the contract was deployed.
+The fund contract charges a percentage deposit fee in $KEKBGS before shares are purchased. The contract owner is able to lower this fee in the future,
+but the fee can never be set higher than the value it was set to when the contract was deployed. This restriction grants users the guarantee that
+the contract owner will never be able to set the deposit fee to something egregious (like 100%, for example).
 
-Revenue from the contract's deposit fees will primarily be used to grow the Kek Baggies project by covering expenses,
+The Kek Baggies Memecoin Mutual Fund contract was deployed with a deposit fee of 100 basis points (1%). This means that the highest deposit fee that
+the fund contract will ever be able to charge is 1%.
+
+Revenue from the Kek Baggies Memecoin Mutual Fund's deposit fees will primarily be used to grow the Kek Baggies project by covering expenses,
 paying for marketing services, etc.
+
+No fee is charged when selling shares back to the fund.
 
 ### Slippage
 Decentralized exchanges are adversarial in nature. It is important to set a slippage tolerance when trading on exchanges like Uniswap to avoid being targeted by MEV bots and "sandwich attacks".
@@ -187,6 +214,21 @@ The owner of the mutual fund contract can set a slippage tolerance in basis poin
 with. If the slippage tolerance is set too low, transactions will fail due to slippage. If the slippage is set too high, transactions will be more susceptible to frontrunning.
 
 ## Reserve Token
+The reserve token for the Kek Baggies Memecoin Mutual Fund on Base is $KEKBGS (CA `0xe7A704EAA3232756C8504FCF01Dcb535dc2df2A2`).
+
+When the mutual fund contract is deployed, a reserve token contract address must be specified. This is the token which will be used to purchase shares, and the token in terms of which the fund's
+net asset value will be quoted. This token is used to purchase assets according to the fund's portfolio allocation. The unallocated percentage remains held in the fund's reserve token.
+
+The share price of the fund will have an inverse correlation with the price of the reserve token. The strength of this inverse correlation depends on the fund's reserve ratio. If most of the fund's
+allocation is in portfolio assets (reserve ratio <50%), then price swings in the reserve token will have a greater effect on the fund's share price.
+If most of the fund's portfolio is held in the reserve token (reserve ratio >50%), then price
+swings in the reserve token will have a lesser effect on the fund's share price. This is because an increase in the reserve token price makes it more expensive to buy back reserve tokens
+when the fund's non-reserve assets are sold, so the share price decreases in this case. Conversely, a decrease in the reserve token price will make it cheaper to buy back reserve tokens when selling the fund's assets,
+so the share price will increase.
+
+This inverse correlation between the reserve token price and the fund's share price is not necessarily negative for the shareholders. As an example, suppose the fund's reserve ratio is 50%. If the price of
+KEKBGS were to 2x, then the fund's valuation in KEKBGS (and thus the share price) would fall by 25%. But the fund's valuation in terms of WETH would actually increase by 50% since the reserve
+token KEKBGS is now twice as valuable.
 
 ## Contract Addresses
 * $KEKBGS - `0xe7A704EAA3232756C8504FCF01Dcb535dc2df2A2`
