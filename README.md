@@ -4,7 +4,7 @@ The Kek Baggies Memecoin Mutual Fund is a smart contract operating as a pooled i
 Our goal is to seek returns by providing exposure to the memecoin market while reducing overall risk through diversification.
 The fund provides to investors a convenient way to invest in memecoins without having to put in the effort of manually managing their own crypto portfolio.
 
-The mutual fund is deployed entirely on-chain, enabling us to operate with much greater transparency and decentralization than investors would be
+The mutual fund is deployed entirely onchain, enabling us to operate with much greater transparency and decentralization than investors would be
 able to experience with a traditional mutual fund.
 
 This README is intended to serve as a complete documentation of the mutual fund contract and the web interface for interacting with it. This is
@@ -238,6 +238,6 @@ token KEKBGS is now twice as valuable.
 ## Disclaimer
 Crypto assets are inherently risky and volatile. While we are attempting to mitigate overall risk by maintaining a diversified portfolio, we offer no promise nor guarantee that investments in the Kek Baggies Memecoin Mutual Fund will return a profit. Do not invest more than you are willing to lose.
 
-The concept of a decentralized mutual fund deployed entirely on-chain is novel. There are no established precedents for how such a mutual fund contract should operate. While we have carefully evaluated the risks of the concept and extensively tested the contract for bugs and security vulnerabilities, we offer no warranty in the event of contract bugs or security breaches.
+The concept of a decentralized mutual fund deployed entirely onchain is novel. There are no established precedents for how such a mutual fund contract should operate. While we have carefully evaluated the risks of the concept and extensively tested the contract for bugs and security vulnerabilities, we offer no warranty in the event of contract bugs or security breaches.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
